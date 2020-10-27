@@ -10,8 +10,7 @@ func handleSum(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(r)
 		fmt.Fprintf(w, "Hello")
 	}
-
-}
+}	
 
 func main() {
 	var root = "/"
