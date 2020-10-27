@@ -6,7 +6,7 @@ var lineReader = require('readline').createInterface({
 
 app.use(express.json());
 
-app.post('/write', (req, res) => {
+app.post('nodejs/write', (req, res) => {
     const lineNumber = req.body.lineNumber;
 
     if (lineNumber < 1 || lineNumber > 100) {
@@ -20,7 +20,7 @@ app.post('/write', (req, res) => {
 
 });
 
-const port = 3000;
+const port = 8080;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 })

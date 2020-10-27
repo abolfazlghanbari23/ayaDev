@@ -6,7 +6,7 @@ let app = express();
 
 app.use(express.json());
 
-app.post('/sha256', (req, res) => {
+app.post('nodejs/sha256', (req, res) => {
     const firstNum = req.body.firstNum;
     const secondNum = req.body.secondNum;
     if (typeof firstNum != "number" || typeof secondNum != "number") {
@@ -16,7 +16,7 @@ app.post('/sha256', (req, res) => {
     res.send({ sum: SHA256(sum) });
 });
 
-const port = 3000;
+const port = 8080;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 })
