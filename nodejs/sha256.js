@@ -5,18 +5,18 @@ let app = express();
 
 
 app.use(express.json());
-    app.post('/sha256', (req, res) => {
-        const firstNum = req.body.firstNum;
-        const secondNum = req.body.secondNum;
-        const sum = firstNum + secondNum;
-        res.send({ sum: SHA256(sum)});
-    });
+
+app.post('/sha256', (req, res) => {
+    const firstNum = req.body.firstNum;
+    const secondNum = req.body.secondNum;
+    if (typeof firstNum != "number" || typeof secondNum != "number") {
+        //todo: throw error
+    }
+    const sum = firstNum + secondNum;
+    res.send({ sum: SHA256(sum) });
+});
 
 const port = 3000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 })
-
-
-
-
