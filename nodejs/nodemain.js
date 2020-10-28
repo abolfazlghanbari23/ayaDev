@@ -1,42 +1,44 @@
-var SHA256 = require("crypto-js/sha256");
 let express = require('express');
 let app = express();
-var lineReader = require('readline').createInterface({
-    input: require('fs').createReadStream('file.in')
-});
-const host = "127.0.0.1";
 const port = 8081;
+const nthline = require('nthline');
+var hash = require('hash.js');
+
+
+app.use(
+    express.urlencoded({
+        extended: false
+    })
+)
 
 app.use(express.json());
 
 
-app.post('nodejs/sha256', (request, response) => {
-    response.writeHead(200, {"Content-Type": "text/html"});
-    const firstNum = request.body.firstNum;
-    const secondNum = request.body.secondNum;
-    if (typeof firstNum != "number" || typeof secondNum != "number") {
-        //todo: throw error
-    }
+app.post('/nodejs/sha256', (req, res) => {
+    const firstNum = req.body;
+    const secondNum = req.body.secondNum;
+    console.log(req.body.firstNum);
+    console.log(req.body.secondNum);
+
+    // if (typeof firstNum != "number" || typeof secondNum != "number") {
+    //     response.send('Invalid Input :(');
+    // }
+
     const sum = firstNum + secondNum;
-    response.send({ sum: SHA256(sum) });
+    res.set('x-test', 'ghanbar').send({ sum: hash.sha256().update(sum).digest('hex') });
 });
 
-app.post('/nodejs/write', (request, response) => {
-    response.writeHead(200, {"Content-Type": "text/html"});
-    const lineNumber = request.body.lineNumber;
+app.post('/nodejs/write', (req, res) => {
+    const lineNumber = req.body.lineNumber;
+    console.log(req.body.lineNumber);
 
     if (lineNumber < 1 || lineNumber > 100) {
-        // TODO: throw error
+        res.send('Invalid Input :(');
     }
 
-    lineReader.on(/* 'line' */ lineNumber, function (line) {
-        console.log('Line from file:', line);
-        response.send({ line: line });
-    });
-
+    nthline(lineNumber, 'file.in').then(line => res.send(line))
 });
 
-
-app.listen(port, host, () => {
-    console.log(`Server is running on http://${host}:${port}`);
-})
+app.listen(port, () => {
+    console.log(`Server is running on port: ${port}`);
+});
