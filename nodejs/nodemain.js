@@ -3,6 +3,7 @@ let app = express();
 const port = 8081;
 const nthline = require('nthline');
 var hash = require('hash.js');
+var cors = require('cors');
 
 
 app.use(
@@ -12,6 +13,7 @@ app.use(
 )
 
 app.use(express.json());
+app.use(cors);
 
 
 app.post('/nodejs/sha256', (req, res) => {
@@ -28,7 +30,7 @@ app.post('/nodejs/sha256', (req, res) => {
     res.set('x-test', 'ghanbar').send({ sum: hash.sha256().update(sum).digest('hex') });
 });
 
-app.post('/nodejs/write', (req, res) => {
+app.get('/nodejs/write', (req, res) => {
     const lineNumber = req.body.lineNumber;
     console.log(req.body.lineNumber);
 
@@ -36,7 +38,7 @@ app.post('/nodejs/write', (req, res) => {
         res.send('Invalid Input :(');
     }
 
-    nthline(lineNumber, 'file.in').then(line => res.send(line))
+    nthline(4, 'file.in').then(line => res.send(line))
 });
 
 app.listen(port, () => {
