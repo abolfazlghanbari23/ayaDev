@@ -15,7 +15,7 @@ app.use(express.json());
 
 
 app.post('/nodejs/sha256', (req, res) => {
-    const firstNum = req.body;
+    const firstNum = req.body.firstNum;
     const secondNum = req.body.secondNum;
     console.log(req.body.firstNum);
     console.log(req.body.secondNum);

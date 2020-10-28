@@ -6,11 +6,10 @@ import (
 )
 
 func handleSum(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "POST" {
-		fmt.Println(r)
-		fmt.Fprintf(w, "Hello")
+	if r.Method == "GET" {
+		fmt.Fprintf(w, "{'Hello':23132}")
 	}
-}	
+}
 
 func main() {
 	var root = "/"
