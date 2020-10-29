@@ -1,0 +1,20 @@
+  GNU nano 4.8                                goweb.service                                          
+[Unit]
+Description=goweb
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5s
+WorkingDirectory=/home/webcourse/WebHomeWork1/go
+ExecStart=/home/webcourse/WebHomeWork1/go/main
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+
+
+
+
