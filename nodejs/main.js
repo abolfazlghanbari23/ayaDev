@@ -47,7 +47,7 @@ app.get('/nodejs/write', (req, res) => {
 
     lineNumber = lineNumber - 1;
     nthline(lineNumber, 'file.in').then(line => {
-        res.send(line)
+        res.send({'result': line});
     });
 });
 
