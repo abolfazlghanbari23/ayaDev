@@ -12,7 +12,7 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', '*');
     res.setHeader('Access-Control-Allow-Credentials', true);
-
+    logReq(req);
     next();
 });
 
@@ -21,7 +21,7 @@ app.post('/nodejs/sha256', (req, res, next) => {
     const firstNum = Number(req.body.firstNum);
     const secondNum = Number(req.body.secondNum);
     const sum = firstNum + secondNum;
-    console.log(sum)
+    console.log(sum);
 
     if (isNaN(firstNum) || isNaN(secondNum)) {
         res.send({'result': 'Invalid Input :('});
@@ -40,7 +40,6 @@ app.get('/nodejs/write', (req, res) => {
         res.send({'result': 'Invalid Input :('});
         return;
     }
-
     if (lineNumber < 1 || lineNumber > 100) {
         res.send({'result': 'Invalid Input :('});
         return;
