@@ -28,7 +28,7 @@ app.post('/nodejs/sha256', (req, res, next) => {
         return;
     }
 
-    res.set('x-test', 'ghanbar').send({'result': hash.sha256().update(sum).digest('hex')});
+    res.set('x-test', 'ghanbar').send({'result': hash.sha256().update(sum.toString()).digest('hex')});
 });
 
 
@@ -37,19 +37,16 @@ app.get('/nodejs/write', (req, res) => {
     console.log(lineNumber);
 
     if (isNaN(lineNumber)) {
-        res.send('Invalid Input :(');
+        res.send({'result': 'Invalid Input :('});
         return;
     }
-    if (typeof lineNumber != "number") {
-        res.send('Invalid Input :(');
-        return;
-    }
-    lineNumber = lineNumber - 1;
 
     if (lineNumber < 1 || lineNumber > 100) {
-        res.send('Invalid Input :(');
+        res.send({'result': 'Invalid Input :('});
         return;
     }
+
+    lineNumber = lineNumber - 1;
     nthline(lineNumber, 'file.in').then(line => {
         res.send(line)
     });
