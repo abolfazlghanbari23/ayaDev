@@ -18,24 +18,18 @@ app.use(function (req, res, next) {
 
 
 app.post('/nodejs/sha256', (req, res, next) => {
-    const firstNum = req.body.firstNum;
-    const secondNum = req.body.secondNum;
-    console.log(req.body.firstNum);
-    console.log(req.body.secondNum);
+    const firstNum = Number(req.body.firstNum);
+    const secondNum = Number(req.body.secondNum);
+    const sum = firstNum + secondNum;
+    console.log(sum)
+
     if (isNaN(firstNum) || isNaN(secondNum)) {
-        res.send('Invalid Input :(');
+        res.send({'result': 'Invalid Input :('});
         return;
     }
 
-    if (typeof firstNum != "number" || typeof secondNum != "number") {
-        response.send('Invalid Input :(');
-    }
-
-    const sum = firstNum + secondNum;
-    res.set('x-test', 'ghanbar').send({ 'result': hash.sha256().update(sum).digest('hex') });
+    res.set('x-test', 'ghanbar').send({'result': hash.sha256().update(sum).digest('hex')});
 });
-
-
 
 
 app.get('/nodejs/write', (req, res) => {
@@ -56,10 +50,10 @@ app.get('/nodejs/write', (req, res) => {
         res.send('Invalid Input :(');
         return;
     }
-    nthline(lineNumber, 'file.in').then(line => { res.send(line) });
+    nthline(lineNumber, 'file.in').then(line => {
+        res.send(line)
+    });
 });
-
-
 
 
 app.listen(port, () => {
