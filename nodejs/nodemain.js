@@ -9,35 +9,41 @@ app.use(express.json());
 
 
 app.post('/nodejs/sha256', (req, res) => {
-    const firstNum = (req.body.firstNum);
-    const secondNum = (req.body.secondNum);
-    console.log(firstNum);
-    console.log(secondNum);
+    const firstNum = Number(req.body.firstNum);
+    const secondNum = Number(req.body.secondNum);
     const sum = firstNum + secondNum;
+    console.log(sum);
 
-    if (typeof firstNum != "number" || typeof secondNum != "number") {
+    if (isNaN(firstNum) || isNaN(secondNum)) {
         res.send('Invalid Input :(');
+        return;
     }
-
     res.set('x-test', 'ghanbar').send({ sum: hash.sha256().update(sum).digest('hex') });
 });
 
 
 
 app.get('/nodejs/write', (req, res) => {
-    var lineNumber = req.params.lineNumber;
+    var lineNumber = Number(req.query.lineNumber);
     console.log(lineNumber);
 
-
-    if (typeof lineNumber != "number") {
-        lineNumber = 1;
-        // res.send('Invalid Input :(');
+    if (isNaN(lineNumber)) {
+        res.send('Invalid Input :(');
+        return;
     }
     if (lineNumber < 1 || lineNumber > 100) {
         res.send('Invalid Input :(');
+        return;
     }
 
-    nthline(lineNumber, 'file.in').then(line => res.send(line))
+    lineNumber = lineNumber - 1;
+
+    if (typeof lineNumber != "number") {
+        res.send('Invalid Input :(');
+        return;
+    }
+
+    nthline(lineNumber, 'file.in').then(line => { res.send(line) });
 });
 
 
@@ -46,3 +52,12 @@ app.get('/nodejs/write', (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });
+
+function logReq(req) {
+    console.log('====================================');
+    console.log('headers: ', (req.headers));
+    console.log('query: ', (req.query));
+    console.log('params: ', (req.params));
+    console.log('body: ', (req.body));
+
+}
