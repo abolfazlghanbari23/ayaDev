@@ -66,15 +66,16 @@
     </script>
 
     <script>
-        
+
         function sumGoFunction() {
             var num1 = document.getElementById("sumN1").value;
             var num2 = document.getElementById("sumN2").value;
+
             var data = { "firstNum": num1, "secondNum": num2 };
             var dataForm = JSON.stringify(data);
             console.log(dataForm);
             $.ajax({
-                url: 'http://127.0.0.1:8081/nodejs/sha256',
+                url: 'http://127.0.0.1:8080/go/sha256',
                 data: dataForm,
                 dataType: 'json',
                 type: 'POST',
@@ -84,7 +85,7 @@
                 }
 
             }).done(function (response) {
-                document.getElementById("sumResult").value = response.result;
+                document.getElementById("sumResult").value = response.Result;
                 console.log(document.getElementById("sumResult").value);
             }).fail(function (xhr, status, errorThrown) {
                 // alert("Sorry, there was a problem!");
@@ -111,7 +112,7 @@
                     console.log(data);
                 }
             }).done(function (response) {
-                document.getElementById("sumResult").value = response.result;
+                document.getElementById("sumResult").value = response.Result;
                 console.log(document.getElementById("sumResult").value);
             }).fail(function (xhr, status, errorThrown) {
                 // alert("Sorry, there was a problem!");
@@ -138,8 +139,8 @@
                 }
 
             }).done(function (response) {
-                document.getElementById("sumResult").value = response.result;
-                console.log(document.getElementById("sumResult").value);
+                document.getElementById("fileLineResult").value = response.Result;
+                console.log(document.getElementById("fileLineResult").value);
             }).fail(function (xhr, status, errorThrown) {
                 // alert("Sorry, there was a problem!");
                 console.log("Error: " + errorThrown);
@@ -149,11 +150,11 @@
         }
         function fileLineNodejsFunction() {
             var num1 = document.getElementById("fileLine").value;
-            
+
             var data = { "lineNumber": num1 };
             var dataForm = JSON.stringify(data);
             console.log(dataForm);
-            
+
             console.log("test");
             $.ajax({
                 url: 'http://127.0.0.1:8081/nodejs/write',
@@ -166,7 +167,7 @@
                 }
 
             }).done(function (response) {
-                document.getElementById("fileLineResult").value = response.result;
+                document.getElementById("fileLineResult").value = response.Result;
                 console.log(document.getElementById("fileLineResult").value);
             }).fail(function (xhr, status, errorThrown) {
                 // alert("Sorry, there was a problem!");
