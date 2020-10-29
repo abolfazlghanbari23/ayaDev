@@ -7,8 +7,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-
 <body class="w3-content w3-black" style="max-width:100%;">
     <header class="w3-display-container w3-center">
         <div class="mySlides w3-animate-opacity" style="display:block">
@@ -17,10 +15,10 @@
                 style="width:25%;background-color: rgba(255, 255, 255, 0);">
                 <div class="w3-hover-opacity-off w3-padding-large w3-round-large"
                     style="background-color: rgba(255, 255, 255, 0.05);">
-                    <input type="number" class="w3-xlarge w3-round-large" placeholder=" Enter first number"
+                    <input type="number" class="w3-xlarge w3-round-large" placeholder="First number"
                         style="background-color: rgba(255, 255, 255, 0.02);color: honeydew;width: 90%;" id="sumN1">
                     <div style="height: 5%;width: 10;" class="w3-padding-large"></div>
-                    <input type="number" class="w3-xlarge w3-round-large" placeholder=" Enter second number"
+                    <input type="number" class="w3-xlarge w3-round-large" placeholder="Second number"
                         style="background-color: rgba(255, 255, 255, 0.02);color: honeydew;width: 90%;" id="sumN2">
 
                     <hr class="w3-opacity">
@@ -31,7 +29,11 @@
                             onclick="sumNodejsFunction()">Nodejs</button></p>
 
                     <p>Results:</p>
-                    <p id="sumResult"> - </p>
+                    <div id="resultContainer1">
+                        <input id="sumResult" class="w3-xlarge w3-round-large"
+                            style="background-color: rgba(255, 255, 255, 0.02);color: honeydew;width: 90%"
+                            value=" - "></input>
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,7 +41,7 @@
             style="width:25%;background-color: rgba(255, 255, 255, 0);">
             <div class="w3-hover-opacity-off w3-padding-large w3-round-large"
                 style="background-color: rgba(255, 255, 255, 0.05);">
-                <input type="number" class="w3-xlarge w3-round-large" placeholder=" Enter first number"
+                <input type="number" class="w3-xlarge w3-round-large" placeholder="File line"
                     style="background-color: rgba(255, 255, 255, 0.02);color: honeydew;width: 90%" id="fileLine">
 
                 <hr class="w3-opacity">
@@ -50,7 +52,11 @@
                         onclick="fileLineNodejsFunction()">Nodejs</button></p>
 
                 <p>Results:</p>
-                <p id="fileLineResult"> - </p>
+                <div id="resultContainer2">
+                    <input id="fileLineResult" class="w3-xlarge w3-round-large"
+                        style="background-color: rgba(255, 255, 255, 0.02);color: honeydew;width: 90%"
+                        value=" - "></input>
+                </div>
 
             </div>
         </div>
@@ -66,7 +72,7 @@
 
             $.ajax({
                 url: 'http://127.0.0.1:8080/go/sha256',
-                data: { "a": num1, "b": num2 },
+                data: { "firstNum": num1, "secondNum": num2 },
                 dataType: 'json',
                 type: 'POST',
                 contentType: false,
@@ -74,9 +80,9 @@
                     console.log(data);
                 }
 
-            }).done(function (result) {
-                document.getElementById("sumResult").innerHTML = result;
-                console.log(document.getElementById("sumResult").innerHTML);
+            }).done(function (response) {
+                document.getElementById("sumResult").value = response.result;
+                console.log(document.getElementById("sumResult").value);
             }).fail(function (xhr, status, errorThrown) {
                 // alert("Sorry, there was a problem!");
                 console.log("Error: " + errorThrown);
@@ -90,19 +96,18 @@
             var num2 = document.getElementById("sumN2").value;
             console.log('test');
 
-            $.post({
+            $.ajax({
                 url: 'http://127.0.0.1:8081/nodejs/sha256',
-                data: { "a": num1, "b": num2 },
+                data: { "firstNum": num1, "secondNum": num2 },
                 dataType: 'json',
                 type: 'POST',
-                contentType: false,
                 success: function (data) {
                     console.log(data);
                 }
 
-            }).done(function (result) {
-                document.getElementById("sumResult").innerHTML = result;
-                console.log(document.getElementById("sumResult").innerHTML);
+            }).done(function (response) {
+                document.getElementById("sumResult").value = response.result;
+                console.log(document.getElementById("sumResult").value);
             }).fail(function (xhr, status, errorThrown) {
                 // alert("Sorry, there was a problem!");
                 console.log("Error: " + errorThrown);
@@ -115,45 +120,48 @@
 
             $.ajax({
                 url: 'http://127.0.0.1:8080/go/write',
-                data: { "a": num1},
+                data: { "lineNumber": num1 },
                 dataType: 'json',
                 type: 'GET',
                 contentType: false,
-                success: function(data){
+                success: function (data) {
                     console.log(data);
                 }
 
-            }).done(function (result) {
-                document.getElementById("sumResult").innerHTML = result;
-                console.log(document.getElementById("sumResult").innerHTML);
+            }).done(function (response) {
+                document.getElementById("sumResult").value = response.result;
+                console.log(document.getElementById("sumResult").value);
             }).fail(function (xhr, status, errorThrown) {
                 // alert("Sorry, there was a problem!");
                 console.log("Error: " + errorThrown);
                 console.log("Status: " + status);
                 console.dir(xhr);
-            });        }
+            });
+        }
         function fileLineNodejsFunction() {
             var num1 = document.getElementById("fileLine").value;
-console.log("test");
+            console.log("test");
             $.ajax({
                 url: 'http://127.0.0.1:8081/nodejs/write',
-                data: { "a": num1},
+                data: { "lineNumber": num1 },
+                headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept" },
                 dataType: 'json',
                 type: 'GET',
                 contentType: false,
-                success: function(data){
+                success: function (data) {
                     console.log(data);
                 }
 
-            }).done(function (result) {
-                document.getElementById("sumResult").innerHTML = result;
-                console.log(document.getElementById("sumResult").innerHTML);
+            }).done(function (response) {
+                document.getElementById("fileLineResult").value = response.result;
+                console.log(document.getElementById("fileLineResult").value);
             }).fail(function (xhr, status, errorThrown) {
                 // alert("Sorry, there was a problem!");
                 console.log("Error: " + errorThrown);
                 console.log("Status: " + status);
                 console.dir(xhr);
-            });        }
+            });
+        }
     </script>
 
 

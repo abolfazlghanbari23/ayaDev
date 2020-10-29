@@ -13,7 +13,7 @@ func handleSum(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	var root = "/"
-	var apiLanguage = "go"
+	var apiLanguage = "go/sha256"
 	http.Handle(root, http.FileServer(http.Dir("./../front")))
 	http.HandleFunc(root+apiLanguage, handleSum)
 
