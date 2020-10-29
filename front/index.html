@@ -75,7 +75,7 @@
             var dataForm = JSON.stringify(data);
             console.log(dataForm);
             $.ajax({
-                url: 'http://127.0.0.1:8080/go/sha256',
+                url: 'http://192.168.99.135/go/sha256',
                 data: dataForm,
                 dataType: 'json',
                 type: 'POST',
@@ -103,7 +103,7 @@
             console.log(dataForm);
 
             $.ajax({
-                url: 'http://127.0.0.1:8081/nodejs/sha256',
+                url: 'http://192.168.99.135/nodejs/sha256',
                 data: dataForm,
                 dataType: 'json',
                 type: 'POST',
@@ -129,7 +129,7 @@
             console.log(dataForm);
 
             $.ajax({
-                url: 'http://127.0.0.1:8080/go/write',
+                url: 'http://192.168.99.135/go/write',
                 data: data,
                 dataType: 'json',
                 type: 'GET',
@@ -157,7 +157,7 @@
 
             console.log("test");
             $.ajax({
-                url: 'http://127.0.0.1:8081/nodejs/write',
+                url: 'http://192.168.99.135/nodejs/write',
                 data: data,
                 dataType: 'json',
                 type: 'GET',
