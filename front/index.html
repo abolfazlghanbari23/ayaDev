@@ -66,16 +66,19 @@
     </script>
 
     <script>
+        
         function sumGoFunction() {
             var num1 = document.getElementById("sumN1").value;
             var num2 = document.getElementById("sumN2").value;
-
+            var data = { "firstNum": num1, "secondNum": num2 };
+            var dataForm = JSON.stringify(data);
+            console.log(dataForm);
             $.ajax({
-                url: 'http://127.0.0.1:8080/go/sha256',
-                data: { "firstNum": num1, "secondNum": num2 },
+                url: 'http://127.0.0.1:8081/nodejs/sha256',
+                data: dataForm,
                 dataType: 'json',
                 type: 'POST',
-                contentType: false,
+                contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     console.log(data);
                 }
@@ -94,17 +97,19 @@
         function sumNodejsFunction() {
             var num1 = document.getElementById("sumN1").value;
             var num2 = document.getElementById("sumN2").value;
-            console.log('test');
+            var data = { "firstNum": num1, "secondNum": num2 };
+            var dataForm = JSON.stringify(data);
+            console.log(dataForm);
 
             $.ajax({
                 url: 'http://127.0.0.1:8081/nodejs/sha256',
-                data: { "firstNum": num1, "secondNum": num2 },
+                data: dataForm,
                 dataType: 'json',
                 type: 'POST',
+                contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     console.log(data);
                 }
-
             }).done(function (response) {
                 document.getElementById("sumResult").value = response.result;
                 console.log(document.getElementById("sumResult").value);
@@ -118,12 +123,16 @@
         function fileLineGoFunction() {
             var num1 = document.getElementById("fileLine").value;
 
+            var data = { "lineNumber": num1 };
+            var dataForm = JSON.stringify(data);
+            console.log(dataForm);
+
             $.ajax({
                 url: 'http://127.0.0.1:8080/go/write',
-                data: { "lineNumber": num1 },
+                data: data,
                 dataType: 'json',
                 type: 'GET',
-                contentType: false,
+                contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     console.log(data);
                 }
@@ -140,14 +149,18 @@
         }
         function fileLineNodejsFunction() {
             var num1 = document.getElementById("fileLine").value;
+            
+            var data = { "lineNumber": num1 };
+            var dataForm = JSON.stringify(data);
+            console.log(dataForm);
+            
             console.log("test");
             $.ajax({
                 url: 'http://127.0.0.1:8081/nodejs/write',
-                data: { "lineNumber": num1 },
-                headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept" },
+                data: data,
                 dataType: 'json',
                 type: 'GET',
-                contentType: false,
+                contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     console.log(data);
                 }
