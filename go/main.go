@@ -33,6 +33,11 @@ func handleSum(w http.ResponseWriter, r *http.Request) {
 		var secondNum, err2 = strconv.ParseInt(data["secondNum"].(string), 10, 64)
 		println(err)
 		println(err2)
+		if err != nil || err2 != null {
+			r := ResponseResult{Result: "invalid input :("}
+			json.NewEncoder(w).Encode(r)
+			return
+		}
 		var sum = firstNum + secondNum
 		h := sha256.New()
 		h.Write([]byte(string(sum)))
